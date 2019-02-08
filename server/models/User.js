@@ -11,7 +11,15 @@ var UserSchema= new Schema({
   password: {
     type: String,
     required: true
-  }
+  },
+  isVerified: {
+     type: Boolean,
+     required:true,
+     default: false },
+
+  token: { 
+    type: String
+    , required: true },
 });
 
 module.exports = mongoose.model('User', UserSchema);
