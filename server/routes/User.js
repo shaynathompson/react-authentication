@@ -14,24 +14,20 @@ UserRouter.route('/register').post(function (req, res) {
     newUser.password=req.body.password;
     newUser.token=token
     
-    console.log('register =>', req.body);
-
-
-
 
     newUser.save()
     .then(newUser => { 
 
         if(newUser===null)
-             res.send("Registration Unsuccessful - email already in use");
+             res.status(200).send("Registration Unsuccessful - email already in use");
         else{
-        console.log(newUser);
-       var transporter = nodemailer.createTransport({ service: 'Sendgrid', auth: { user: 'shaynathompson', pass: 'Fuld@2018!' } });
-       var mailOptions = { from: 'shaynathompsonbz@gmail.com', to: newUser.email, subject: 'Email Verification', text: 'Hello,\n\n' + 'Please confirm your email address by clicking the following link \nhttp:\/\/' + req.headers.host + '\/verifyEmail\/' + token + '.\n' };
+       var transporter = nodemailer.createTransport({ service: 'Sendgrid', auth: { user: 'shaythompson', pass: 'shaythompson1' } });
+       var mailOptions = { from: 'shaynathompsonbz@gmail.com', to: newUser.email, subject: 'Email Verification', text: 'Hello,\n\n' + 'Please confirm your email address with the token: ' + token + '.\n' };
        console.log(newUser);
        transporter.sendMail(mailOptions, function (err) {              
-           if (err) { return res.status(500).send({ msg: err.message }); }
-           res.send('A verification email has been sent to ' + newUser.email + '.' + ' Please enter the token received');
+           if (err) {
+                return res.status(500).send(err.message); }
+           res.status(200).send('A verification email has been sent to ' + newUser.email + '.' + ' Please enter the token received');
            console.log("Email bloooock");
      });
     }
@@ -49,13 +45,13 @@ UserRouter.route('/login').post(function (req, res) {
     User.findOne({email:email, password:password, isVerified: true})
         .then(user => {
             if (user==null)
-             res.send('Invalid Credentials or account not verified'); 
+             res.status(200).send('Invalid Credentials or account not verified'); 
             else{
             if (!user.isVerified) 
-                res.send('Account not verified');
+                res.status(200).send('Account not verified');
             else{
               
-                res.send('Logged in successfully'); 
+                res.status(200).send('Logged in successfully'); 
                 res.send({ token: generateToken(user), user: user.toJSON()});
                 
                 }  
@@ -75,12 +71,12 @@ UserRouter.route('/verifyEmail').post(function (req, res) {
     User.findOne({email:email, token, token})
         .then(user => {
             if (user==null)
-             res.json('Invalid token. Please try again'); 
+             res.status(200).send('Invalid token. Please try again'); 
             else{
                 user.isVerified = true;
                 user.save(function (err) {
                 if (err) 
-                { return res.status(500).send({ msg: err.message }); }
+                { return res.status(500).send(err.message ); }
                
                 res.status(200).send("The account has been verified. Please log in.");
             });      
