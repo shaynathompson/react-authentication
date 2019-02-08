@@ -20,6 +20,7 @@ app.use(bodyParser.json());
 
 app.use('/user', UserRouter);
 
+
 app.listen(PORT, function(){
   console.log('Server is running on Port: ',PORT);
 });
