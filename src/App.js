@@ -19,10 +19,12 @@ class App extends Component {
             <li><Link to={'/'}>Home</Link></li>
               <li><Link to={'/login'}>Login</Link></li>
               <li><Link to={'/register'}>Register</Link></li>
+              <li><Link to={'/verifyEmail'}>Verify Email</Link></li>
             </ul>
             <hr />
             <Switch>
                 <Route exact path='/index' component={HomeComponent} />
+                <Route exact path='/verifyEmail' component={HomeComponent} />
                 <Route path='/login' component={LoginComponent} />
                 <Route path='/register' component={RegisterComponent} />
             </Switch>
