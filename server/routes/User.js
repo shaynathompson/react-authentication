@@ -47,8 +47,10 @@ UserRouter.route('/login').post(function (req, res) {
             if (!user.isVerified) 
                 res.json('Account not verified');
             else{
+              
                 res.json('User Login Successfully');
                 res.send({ token: generateToken(user), user: user.toJSON()});
+                
                 }  
             }
         }).catch(err => {
