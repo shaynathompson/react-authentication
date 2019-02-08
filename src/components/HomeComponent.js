@@ -11,7 +11,8 @@ export default class HomeComponent extends Component {
 
         this.state = {
             email: '',
-            token: ''
+            token: '',
+            message: ''
         }
     }
     onChangeEmail(e) {
@@ -31,14 +32,15 @@ export default class HomeComponent extends Component {
             token: this.state.token
         }
         axios.post('http://localhost:4200/user/verifyEmail', user)
-        .then(res => console.log(res.data));
-        this.setState({
-            email: '',
-            token: ''
-        })
+        .then(response => {
+            this.setState({
+                email: '',
+                token: '',
+                message: response.data
+            })
+    })
+
     }
-
-
 
 
     render() {
@@ -58,6 +60,7 @@ export default class HomeComponent extends Component {
                         <input type="submit" value="verify" className="btn btn-primary"/>
                     </div>
                 </form>
+                <p>{this.state.message} </p>
             </div>
         )
     }

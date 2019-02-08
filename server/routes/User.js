@@ -15,22 +15,29 @@ UserRouter.route('/register').post(function (req, res) {
     newUser.token=token
     
     console.log('register =>', req.body);
-    //const user= new User(req.body);
+
+
+
+
     newUser.save()
-    .then(newUser => {
-       // res.json('User Register Successfully');  
- 
+    .then(newUser => { 
+
+        if(newUser===null)
+             res.send("Registration Unsuccessful - email already in use");
+        else{
+        console.log(newUser);
        var transporter = nodemailer.createTransport({ service: 'Sendgrid', auth: { user: 'shaynathompson', pass: 'Fuld@2018!' } });
        var mailOptions = { from: 'shaynathompsonbz@gmail.com', to: newUser.email, subject: 'Email Verification', text: 'Hello,\n\n' + 'Please confirm your email address by clicking the following link \nhttp:\/\/' + req.headers.host + '\/verifyEmail\/' + token + '.\n' };
-       console.log(newUser.email);
+       console.log(newUser);
        transporter.sendMail(mailOptions, function (err) {              
            if (err) { return res.status(500).send({ msg: err.message }); }
-           res.status(200).send('A verification email has been sent to ' + newUser.email + '.');
+           res.send('A verification email has been sent to ' + newUser.email + '.' + ' Please enter the token received at http:\/\/' + req.headers.host + '\/verifyEmail\/');
            console.log("Email bloooock");
-   });
+     });
+    }
 
     }).catch(err => {
-        res.status(400).send("Registration Unsuccessful");
+        res.send("Registration Unsuccessful  - email already in use");
     });
 });
 
@@ -42,13 +49,13 @@ UserRouter.route('/login').post(function (req, res) {
     User.findOne({email:email, password:password, isVerified: true})
         .then(user => {
             if (user==null)
-             res.json('Invalid Credentials or account not verified'); 
+             res.send('Invalid Credentials or account not verified'); 
             else{
             if (!user.isVerified) 
-                res.json('Account not verified');
+                res.send('Account not verified');
             else{
               
-                res.json('User Login Successfully');
+                res.send('Logged in successfully'); 
                 res.send({ token: generateToken(user), user: user.toJSON()});
                 
                 }  
@@ -68,7 +75,7 @@ UserRouter.route('/verifyEmail').post(function (req, res) {
     User.findOne({email:email, token, token})
         .then(user => {
             if (user==null)
-             res.json('Invalid token'); 
+             res.json('Invalid token. Please try again'); 
             else{
                 user.isVerified = true;
                 user.save(function (err) {

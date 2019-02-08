@@ -10,7 +10,8 @@ export default class RegisterComponent extends Component {
 
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            message: ''
         }
     }
     onChangeEmail(e) {
@@ -30,10 +31,12 @@ export default class RegisterComponent extends Component {
             password: this.state.password
         }
         axios.post('http://localhost:4200/user/register', user)
-        .then(res => console.log(res.data));
-        this.setState({
-            email: '',
-            password: ''
+        .then(response => {
+            this.setState({
+                email: '',
+                password: '',
+                message: response.data
+            })
         })
     }
 
@@ -47,7 +50,7 @@ export default class RegisterComponent extends Component {
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                         <label>Email:  </label>
-                        <input type="text" value={this.state.email} className="form-control" onChange={this.onChangeEmail}/>
+                        <input type="email" value={this.state.email} className="form-control" onChange={this.onChangeEmail}/>
                     </div>
                     <div className="form-group">
                         <label>Password: </label>
@@ -57,6 +60,7 @@ export default class RegisterComponent extends Component {
                         <input type="submit" value="register" className="btn btn-primary"/>
                     </div>
                 </form>
+                <p> {this.state.message} </p>
             </div>
         )
     }

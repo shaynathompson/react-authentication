@@ -11,9 +11,12 @@ export default class LoginComponent extends Component {
 
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            message: ''
         }
     }
+
+      
     onChangeEmail(e) {
         this.setState({
             email: e.target.value
@@ -31,13 +34,14 @@ export default class LoginComponent extends Component {
             password: this.state.password
         }
         axios.post('http://localhost:4200/user/login', user)
-        .then(res => console.log(res.data));
+        .then(response => {
         this.setState({
             email: '',
-            password: ''
+            password: '',
+            message: response.data
         })
+    })
     }
-
 
 
 
@@ -48,7 +52,7 @@ export default class LoginComponent extends Component {
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                         <label>Email:  </label>
-                        <input type="text" value={this.state.email} className="form-control" onChange={this.onChangeEmail}/>
+                        <input type="email" value={this.state.email} className="form-control" onChange={this.onChangeEmail}/>
                     </div>
                     <div className="form-group">
                         <label>Password: </label>
@@ -58,6 +62,7 @@ export default class LoginComponent extends Component {
                         <input type="submit" value="login" className="btn btn-primary"/>
                     </div>
                 </form>
+               <p>  {this.state.message} </p>
             </div>
         )
     }
