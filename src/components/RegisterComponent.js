@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import {Link } from 'react-router-dom';
 
 export default class RegisterComponent extends Component {
     constructor(props) {
         super(props);
-        this.onChangeEmail = this.onChangeEmail.bind(this);
-        this.onChangePassword = this.onChangePassword.bind(this);
+        this.emailChange = this.emailChange.bind(this);
+        this.passwordChange = this.passwordChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
@@ -14,12 +15,12 @@ export default class RegisterComponent extends Component {
             message: ''
         }
     }
-    onChangeEmail(e) {
+    emailChange(e) {
         this.setState({
             email: e.target.value
         });
     }
-    onChangePassword(e) {
+    passwordChange(e) {
         this.setState({
             password: e.target.value
         });
@@ -45,22 +46,25 @@ export default class RegisterComponent extends Component {
 
     render() {
         return(
-        <div style={{marginTop: 50}}>
+        <div style={{margin: 50}}>
                 <h3>Register</h3>
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                         <label>Email:  </label>
-                        <input type="email" value={this.state.email} className="form-control" onChange={this.onChangeEmail}/>
+                        <input type="email" value={this.state.email} className="form-control col-md-4 col-sm-4" onChange={this.emailChange}/>
                     </div>
                     <div className="form-group">
                         <label>Password: </label>
-                        <input type="password" value={this.state.password} className="form-control" onChange={this.onChangePassword}/>
+                        <input type="password" value={this.state.password} className="form-control col-md-4 col-sm-4" onChange={this.passwordChange}/>
                     </div>
                     <div className="form-group">
-                        <input type="submit" value="register" className="btn btn-primary"/>
+                        <input type="submit" value="REGISTER" className="btn btn-primary"/>
                     </div>
                 </form>
                 <p> {this.state.message} </p>
+
+                <p> Already have an account? <Link to={'/login'}>Login Here</Link> </p>
+                <p> Need to verify your account? <Link to={'/verifyEmail'}>Verify Here</Link> </p>
             </div>
         )
     }

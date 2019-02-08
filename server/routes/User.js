@@ -31,7 +31,7 @@ UserRouter.route('/register').post(function (req, res) {
        console.log(newUser);
        transporter.sendMail(mailOptions, function (err) {              
            if (err) { return res.status(500).send({ msg: err.message }); }
-           res.send('A verification email has been sent to ' + newUser.email + '.' + ' Please enter the token received at http:\/\/' + req.headers.host + '\/verifyEmail\/');
+           res.send('A verification email has been sent to ' + newUser.email + '.' + ' Please enter the token received');
            console.log("Email bloooock");
      });
     }

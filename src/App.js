@@ -15,19 +15,13 @@ class App extends Component {
       <Router>
           <div>
             <h2>Welcome to Node-React Authentication</h2>
-            <ul>
-            <li><Link to={'/'}>Home</Link></li>
-              <li><Link to={'/login'}>Login</Link></li>
-              <li><Link to={'/register'}>Register</Link></li>
-              <li><Link to={'/verifyEmail'}>Verify Email</Link></li>
-            </ul>
-            <hr />
             <Switch>
-                <Route exact path='/index' component={HomeComponent} />
+                <Route exact path='/index' component={LoginComponent} />
+                <Route exact path='/' component={LoginComponent} />
                 <Route exact path='/verifyEmail' component={HomeComponent} />
                 <Route path='/login' component={LoginComponent} />
                 <Route path='/register' component={RegisterComponent} />
-                       <Route exact path='/verifyEmail' component={HomeComponent} />
+                <Route exact path='/verifyEmail' component={HomeComponent} />
             </Switch>
           </div>
         </Router>
