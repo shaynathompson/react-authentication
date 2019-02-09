@@ -34,7 +34,7 @@ export default class LoginComponent extends Component {
             email: this.state.email,
             password: this.state.password
         }
-        axios.post('http://localhost:4200/user/login', user)
+        axios.post('https://inzept3d-react.herokuapp.com/user/login', user)
         .then(response => {
         this.setState({
             email: '',
